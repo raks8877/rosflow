@@ -74,3 +74,4 @@ void Subscriber::get_liveliness_changed_status(LivelinessChangedStatus &status)
     (void)status;
     logWarning(SUBSCRIBER, "get_liveliness_changed_status is not implemented yet");
 }
+

@@ -314,7 +314,8 @@ bool PublisherImpl::updateAttributes(const PublisherAttributes& att)
     if(this->m_att.topic != att.topic)
     {
         logWarning(PUBLISHER,"Topic Attributes cannot be updated");
-        updated &= false;
+        // updated &= false;
+        m_att.topic = att.topic;
     }
     //QOS:
     //CHECK IF THE QOS CAN BE SET
@@ -480,4 +481,9 @@ void PublisherImpl::lifespan_expired()
 
     lifespan_timer_.update_interval_millisec((double)duration_cast<milliseconds>(interval).count());
     lifespan_timer_.restart_timer();
+}
+
+PublisherAttributes PublisherImpl::getPublisherAttributes()
+{
+    return m_att;
 }

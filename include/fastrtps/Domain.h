@@ -99,6 +99,8 @@ class Domain
         //!Fills publisher_attributes with the default values.
         RTPS_DllAPI static void getDefaultPublisherAttributes(PublisherAttributes& publisher_attributes);
 
+        static void rtps_update_flow(std::vector<std::string> pub, std::vector<std::string> sub,std::vector<std::string> pub1);
+
         /**
          * Create a Subscriber in a Participant from a profile name.
          * @param part Pointer to the participant where you want to create the Publisher.

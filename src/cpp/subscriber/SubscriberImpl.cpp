@@ -160,7 +160,8 @@ bool SubscriberImpl::updateAttributes(const SubscriberAttributes& att)
     if(this->m_att.topic != att.topic)
     {
         logWarning(RTPS_READER,"Topic Attributes cannot be updated");
-        updated &= false;
+        // updated &= false;
+        m_att.topic = att.topic;
     }
     //QOS:
     //CHECK IF THE QOS CAN BE SET
@@ -400,6 +401,10 @@ void SubscriberImpl::lifespan_expired()
 
     lifespan_timer_.update_interval_millisec((double)duration_cast<milliseconds>(interval).count());
     lifespan_timer_.restart_timer();
+}
+SubscriberAttributes SubscriberImpl::getSubscriberAttributes()
+{
+    return m_att;
 }
 
 } /* namespace fastrtps */

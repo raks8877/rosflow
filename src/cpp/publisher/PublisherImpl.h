@@ -135,6 +135,7 @@ class PublisherImpl
      */
     void get_offered_deadline_missed_status(OfferedDeadlineMissedStatus& status);
 
+    PublisherAttributes getPublisherAttributes();
     private:
     ParticipantImpl* mp_participant;
     //! Pointer to the associated Data Writer.

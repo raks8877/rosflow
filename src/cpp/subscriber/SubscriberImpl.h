@@ -133,7 +133,7 @@ public:
      * @return The deadline missed status
      */
     void get_requested_deadline_missed_status(RequestedDeadlineMissedStatus& status);
-
+    SubscriberAttributes getSubscriberAttributes();
 private:
 
     //!Participant

@@ -24,7 +24,11 @@
 #include "participant/ParticipantImpl.h"
 
 #include <fastrtps/publisher/Publisher.h>
+#include <fastrtps/attributes/PublisherAttributes.h>
 #include <fastrtps/subscriber/Subscriber.h>
+#include <fastrtps/attributes/SubscriberAttributes.h>
+#include "subscriber/SubscriberImpl.h"
+#include "publisher/PublisherImpl.h"
 
 #include <fastrtps/utils/eClock.h>
 
@@ -248,6 +252,64 @@ void Domain::getDefaultSubscriberAttributes(SubscriberAttributes& subscriber_att
 
     return XMLProfileManager::getDefaultSubscriberAttributes(subscriber_attributes);
 }
+
+void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::string> sub, std::vector<std::string> pub1)
+{
+    // std::cout << "Inside domain.cpp\n";
+    // std::vector<std::string>::iterator itr;
+    // std::cout << "Publishers: ";
+    // for(itr = pub.begin(); itr != pub.end(); itr++)
+    // {
+    //     std::cout << (*itr) << " ";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "Subscrieber: ";
+    // for(itr = sub.begin(); itr != sub.end(); itr++)
+    // {
+    //     std::cout << (*itr) << " ";
+    // }
+    // std::cout << std::endl;
+    // std::cout << "Publishers1: ";
+    // for(itr = pub1.begin(); itr != pub1.end(); itr++)
+    // {
+    //     std::cout << (*itr) << " ";
+    // }
+    // std::cout << std::endl;
+    std::lock_guard<std::mutex> guard(m_mutex);
+    for (auto it = m_participants.begin(); it != m_participants.end(); it++)
+    {
+        for(auto itr = it->second->m_subscribers.begin(); itr != it->second->m_subscribers.end(); ++itr)
+        {
+            std::cout << itr->second->getSubscriberAttributes().topic.getTopicName() << std::endl;
+            if (itr->second->getSubscriberAttributes().topic.getTopicName().to_string().compare("rt/" + sub[0]) == 0)
+            {
+                SubscriberAttributes newatt = itr->second->getSubscriberAttributes();
+                //take care of namespaces:: PENDING
+                newatt.topic.topicName = "rt/" + sub[1];
+                itr->second->updateAttributes(newatt);
+                std::cout << "Subscriber updated from " << sub[0] << " to " << sub[1] << std::endl;
+            }
+            
+        }
+    }
+    for (auto it = m_participants.begin(); it != m_participants.end(); it++)
+    {
+        for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
+        {
+            std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
+            if (itr->second->getPublisherAttributes().topic.getTopicName().to_string().compare("rt/" + pub[0]) == 0)
+            {
+                PublisherAttributes newatt = itr->second->getPublisherAttributes();
+                //take care of namespaces:: PENDING
+                newatt.topic.topicName = "rt/" + pub[1];
+                itr->second->updateAttributes(newatt);
+                std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
+            }
+        }
+    }
+    
+}
+
 
 Subscriber* Domain::createSubscriber(
         Participant* part,

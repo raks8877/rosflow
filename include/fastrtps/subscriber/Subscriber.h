@@ -25,6 +25,7 @@
 #include "../qos/DeadlineMissedStatus.h"
 #include "../qos/LivelinessChangedStatus.h"
 
+
 namespace eprosima {
 namespace fastrtps {
 
@@ -120,7 +121,7 @@ public:
      * @param status Liveliness changed status
      */
     void get_liveliness_changed_status(LivelinessChangedStatus& status);
-
+    
 private:
     SubscriberImpl* mp_impl;
 };
