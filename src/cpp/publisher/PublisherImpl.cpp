@@ -261,54 +261,58 @@ bool PublisherImpl::updateAttributes(const PublisherAttributes& att)
     bool missing = false;
     if(this->m_att.qos.m_reliability.kind == RELIABLE_RELIABILITY_QOS)
     {
-        if(att.unicastLocatorList.size() != this->m_att.unicastLocatorList.size() ||
-                att.multicastLocatorList.size() != this->m_att.multicastLocatorList.size())
-        {
-            logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
-            updated &= false;
-        }
-        else
-        {
-            for(LocatorListConstIterator lit1 = this->m_att.unicastLocatorList.begin();
-                    lit1!=this->m_att.unicastLocatorList.end();++lit1)
-            {
-                missing = true;
-                for(LocatorListConstIterator lit2 = att.unicastLocatorList.begin();
-                        lit2!= att.unicastLocatorList.end();++lit2)
-                {
-                    if(*lit1 == *lit2)
-                    {
-                        missing = false;
-                        break;
-                    }
-                }
-                if(missing)
-                {
-                    logWarning(PUBLISHER,"Locator: "<< *lit1 << " not present in new list");
-                    logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
-                }
-            }
-            for(LocatorListConstIterator lit1 = this->m_att.multicastLocatorList.begin();
-                    lit1!=this->m_att.multicastLocatorList.end();++lit1)
-            {
-                missing = true;
-                for(LocatorListConstIterator lit2 = att.multicastLocatorList.begin();
-                        lit2!= att.multicastLocatorList.end();++lit2)
-                {
-                    if(*lit1 == *lit2)
-                    {
-                        missing = false;
-                        break;
-                    }
-                }
-                if(missing)
-                {
-                    logWarning(PUBLISHER,"Locator: "<< *lit1<< " not present in new list");
-                    logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
-                }
-            }
-        }
+        // if(att.unicastLocatorList.size() != this->m_att.unicastLocatorList.size() ||
+        //         att.multicastLocatorList.size() != this->m_att.multicastLocatorList.size())
+        // {
+        //     logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
+        //     updated &= false;
+        // }
+        // else
+        // {
+        //     for(LocatorListConstIterator lit1 = this->m_att.unicastLocatorList.begin();
+        //             lit1!=this->m_att.unicastLocatorList.end();++lit1)
+        //     {
+        //         missing = true;
+        //         for(LocatorListConstIterator lit2 = att.unicastLocatorList.begin();
+        //                 lit2!= att.unicastLocatorList.end();++lit2)
+        //         {
+        //             if(*lit1 == *lit2)
+        //             {
+        //                 missing = false;
+        //                 break;
+        //             }
+        //         }
+        //         if(missing)
+        //         {
+        //             logWarning(PUBLISHER,"Locator: "<< *lit1 << " not present in new list");
+        //             logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
+        //         }
+        //     }
+        //     for(LocatorListConstIterator lit1 = this->m_att.multicastLocatorList.begin();
+        //             lit1!=this->m_att.multicastLocatorList.end();++lit1)
+        //     {
+        //         missing = true;
+        //         for(LocatorListConstIterator lit2 = att.multicastLocatorList.begin();
+        //                 lit2!= att.multicastLocatorList.end();++lit2)
+        //         {
+        //             if(*lit1 == *lit2)
+        //             {
+        //                 missing = false;
+        //                 break;
+        //             }
+        //         }
+        //         if(missing)
+        //         {
+        //             logWarning(PUBLISHER,"Locator: "<< *lit1<< " not present in new list");
+        //             logWarning(PUBLISHER,"Locator Lists cannot be changed or updated in this version");
+        //         }
+        //     }
+        // }
     }
+    m_att.unicastLocatorList.clear();
+    m_att.multicastLocatorList.clear();
+    size_t removed_changes_count = 0;
+    m_history.removeAllChange(&removed_changes_count);
 
     //TOPIC ATTRIBUTES
     if(this->m_att.topic != att.topic)
@@ -486,4 +490,9 @@ void PublisherImpl::lifespan_expired()
 PublisherAttributes PublisherImpl::getPublisherAttributes()
 {
     return m_att;
+}
+
+PublisherListener* PublisherImpl::getPublisherListener()
+{
+    return mp_listener;
 }

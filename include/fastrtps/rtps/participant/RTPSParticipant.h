@@ -154,6 +154,10 @@ public:
             const TopicAttributes& topicAtt,
             const ReaderQos& rqos);
 
+    bool disableReader(RTPSReader* Reader);
+    bool removeWriter(RTPSWriter* Writer);
+    bool removeReader(RTPSReader* Reader);
+
     /**
      * Returns a list with the participant names.
      * @return list of participant names.

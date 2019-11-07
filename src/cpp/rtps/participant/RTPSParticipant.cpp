@@ -87,6 +87,24 @@ bool RTPSParticipant::updateReader(RTPSReader* Reader, const TopicAttributes& to
     return mp_impl->updateLocalReader(Reader, topicAtt, rqos);
 }
 
+bool RTPSParticipant::disableReader(RTPSReader* Reader)
+{
+    mp_impl->disableReader(Reader);
+    return true;
+}
+
+bool RTPSParticipant::removeWriter(RTPSWriter* Writer)
+{
+    mp_impl->removeOldWriter(Writer);
+    return true;
+}
+bool RTPSParticipant::removeReader(RTPSReader* Reader)
+{
+    mp_impl->removeOldReader(Reader);
+    return true;
+}
+
+
 std::vector<std::string> RTPSParticipant::getParticipantNames() const {
     return mp_impl->getParticipantNames();
 }

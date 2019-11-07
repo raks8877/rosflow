@@ -95,6 +95,9 @@ class ParticipantImpl
         const PublisherAttributes& att,
         PublisherListener* listen=nullptr);
 
+    void updatePublisherWriter(
+        const PublisherAttributes& att,
+        PublisherImpl* pubimpl);
     /**
      * Create a Subscriber in this Participant.
      * @param att Attributes of the Subscriber
@@ -104,6 +107,10 @@ class ParticipantImpl
     Subscriber* createSubscriber(
         const SubscriberAttributes& att,
         SubscriberListener* listen=nullptr);
+    
+    void updateSubscriberReader(
+        const SubscriberAttributes& att,
+        SubscriberImpl* subimpl);
 
     /**
      * Remove a Publisher from this participant.

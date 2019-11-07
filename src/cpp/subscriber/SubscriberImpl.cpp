@@ -108,54 +108,56 @@ bool SubscriberImpl::updateAttributes(const SubscriberAttributes& att)
 {
     bool updated = true;
     bool missing = false;
-    if(att.unicastLocatorList.size() != this->m_att.unicastLocatorList.size() ||
-            att.multicastLocatorList.size() != this->m_att.multicastLocatorList.size())
-    {
-        logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
-        updated &= false;
-    }
-    else
-    {
-        for(LocatorListConstIterator lit1 = this->m_att.unicastLocatorList.begin();
-                lit1!=this->m_att.unicastLocatorList.end();++lit1)
-        {
-            missing = true;
-            for(LocatorListConstIterator lit2 = att.unicastLocatorList.begin();
-                    lit2!= att.unicastLocatorList.end();++lit2)
-            {
-                if(*lit1 == *lit2)
-                {
-                    missing = false;
-                    break;
-                }
-            }
-            if(missing)
-            {
-                logWarning(RTPS_READER,"Locator: "<< *lit1 << " not present in new list");
-                logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
-            }
-        }
-        for(LocatorListConstIterator lit1 = this->m_att.multicastLocatorList.begin();
-                lit1!=this->m_att.multicastLocatorList.end();++lit1)
-        {
-            missing = true;
-            for(LocatorListConstIterator lit2 = att.multicastLocatorList.begin();
-                    lit2!= att.multicastLocatorList.end();++lit2)
-            {
-                if(*lit1 == *lit2)
-                {
-                    missing = false;
-                    break;
-                }
-            }
-            if(missing)
-            {
-                logWarning(RTPS_READER,"Locator: "<< *lit1<< " not present in new list");
-                logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
-            }
-        }
-    }
-
+    // if(att.unicastLocatorList.size() != this->m_att.unicastLocatorList.size() ||
+    //         att.multicastLocatorList.size() != this->m_att.multicastLocatorList.size())
+    // {
+    //     logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
+    //     updated &= false;
+    // }
+    // else
+    // {
+    //     for(LocatorListConstIterator lit1 = this->m_att.unicastLocatorList.begin();
+    //             lit1!=this->m_att.unicastLocatorList.end();++lit1)
+    //     {
+    //         missing = true;
+    //         for(LocatorListConstIterator lit2 = att.unicastLocatorList.begin();
+    //                 lit2!= att.unicastLocatorList.end();++lit2)
+    //         {
+    //             if(*lit1 == *lit2)
+    //             {
+    //                 missing = false;
+    //                 break;
+    //             }
+    //         }
+    //         if(missing)
+    //         {
+    //             logWarning(RTPS_READER,"Locator: "<< *lit1 << " not present in new list");
+    //             logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
+    //         }
+    //     }
+    //     for(LocatorListConstIterator lit1 = this->m_att.multicastLocatorList.begin();
+    //             lit1!=this->m_att.multicastLocatorList.end();++lit1)
+    //     {
+    //         missing = true;
+    //         for(LocatorListConstIterator lit2 = att.multicastLocatorList.begin();
+    //                 lit2!= att.multicastLocatorList.end();++lit2)
+    //         {
+    //             if(*lit1 == *lit2)
+    //             {
+    //                 missing = false;
+    //                 break;
+    //             }
+    //         }
+    //         if(missing)
+    //         {
+    //             logWarning(RTPS_READER,"Locator: "<< *lit1<< " not present in new list");
+    //             logWarning(RTPS_READER,"Locator Lists cannot be changed or updated in this version");
+    //         }
+    //     }
+    // }
+    m_att.multicastLocatorList.clear();
+    m_att.unicastLocatorList.clear();
+    
     //TOPIC ATTRIBUTES
     if(this->m_att.topic != att.topic)
     {
@@ -405,6 +407,10 @@ void SubscriberImpl::lifespan_expired()
 SubscriberAttributes SubscriberImpl::getSubscriberAttributes()
 {
     return m_att;
+}
+SubscriberListener* SubscriberImpl::getSubscriberListener()
+{
+    return mp_listener;
 }
 
 } /* namespace fastrtps */

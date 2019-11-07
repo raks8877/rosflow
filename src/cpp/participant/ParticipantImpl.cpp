@@ -44,6 +44,8 @@
 
 #include <fastrtps/log/Log.h>
 
+#include <fastrtps/publisher/PublisherHistory.h>
+
 using namespace eprosima::fastrtps;
 using namespace eprosima::fastrtps::rtps;
 
@@ -241,6 +243,134 @@ Publisher* ParticipantImpl::createPublisher(
 
 std::vector<std::string> ParticipantImpl::getParticipantNames() const {
     return mp_rtpsParticipant->getParticipantNames();
+}
+
+void ParticipantImpl::updatePublisherWriter(
+        const PublisherAttributes& att,
+        PublisherImpl* pubimpl)
+{
+    WriterAttributes watt;
+    watt.throughputController = att.throughputController;
+    watt.endpoint.durabilityKind = att.qos.m_durability.durabilityKind();
+    watt.endpoint.endpointKind = WRITER;
+    watt.endpoint.multicastLocatorList = att.multicastLocatorList;
+    watt.endpoint.reliabilityKind = att.qos.m_reliability.kind == RELIABLE_RELIABILITY_QOS ? RELIABLE : BEST_EFFORT;
+    watt.endpoint.topicKind = att.topic.topicKind;
+    watt.endpoint.unicastLocatorList = att.unicastLocatorList;
+    watt.endpoint.remoteLocatorList = att.remoteLocatorList;
+    watt.mode = att.qos.m_publishMode.kind == eprosima::fastrtps::SYNCHRONOUS_PUBLISH_MODE ? SYNCHRONOUS_WRITER : ASYNCHRONOUS_WRITER;
+    watt.endpoint.properties = att.properties;
+    if(att.getEntityID()>0)
+    {
+        watt.endpoint.setEntityID((uint8_t)att.getEntityID());
+    }
+    if(att.getUserDefinedID()>0)
+    {
+        watt.endpoint.setUserDefinedID((uint8_t)att.getUserDefinedID());
+    }
+    watt.times = att.times;
+    watt.matched_readers_allocation = att.matched_subscriber_allocation;
+
+    // TODO(Ricardo) Remove in future
+    // Insert topic_name and partitions
+    Property property;
+    property.name("topic_name");
+    property.value(att.topic.getTopicName().c_str());
+    watt.endpoint.properties.properties().push_back(std::move(property));
+    if(att.qos.m_partition.getNames().size() > 0)
+    {
+        property.name("partitions");
+        std::string partitions;
+        for(auto partition : att.qos.m_partition.getNames())
+        {
+            partitions += partition + ";";
+        }
+        property.value(std::move(partitions));
+        watt.endpoint.properties.properties().push_back(std::move(property));
+    }
+    if (att.qos.m_disablePositiveACKs.enabled &&
+            att.qos.m_disablePositiveACKs.duration != c_TimeInfinite)
+    {
+        watt.disable_positive_acks = true;
+        watt.keep_duration = att.qos.m_disablePositiveACKs.duration;
+    }
+
+    RTPSWriter* writer = RTPSDomain::createRTPSWriter(
+                this->mp_rtpsParticipant,
+                watt,
+                (WriterHistory*)&pubimpl->m_history,
+                (WriterListener*)&pubimpl->m_writerListener);
+    if(writer != nullptr)
+    {
+        this->mp_rtpsParticipant->removeWriter(pubimpl->mp_writer);
+        pubimpl->mp_writer = writer;
+        this->mp_rtpsParticipant->registerWriter(writer, att.topic, att.qos);
+    
+    }
+    
+}
+
+
+void ParticipantImpl::updateSubscriberReader(
+        const SubscriberAttributes& att,
+        SubscriberImpl* subimpl)
+{
+    
+    ReaderAttributes ratt;
+    ratt.endpoint.durabilityKind = att.qos.m_durability.durabilityKind();
+    ratt.endpoint.endpointKind = READER;
+    ratt.endpoint.multicastLocatorList = att.multicastLocatorList;
+    ratt.endpoint.reliabilityKind = att.qos.m_reliability.kind == RELIABLE_RELIABILITY_QOS ? RELIABLE : BEST_EFFORT;
+    ratt.endpoint.topicKind = att.topic.topicKind;
+    ratt.endpoint.unicastLocatorList = att.unicastLocatorList;
+    ratt.endpoint.remoteLocatorList = att.remoteLocatorList;
+    ratt.expectsInlineQos = att.expectsInlineQos;
+    ratt.endpoint.properties = att.properties;
+    if(att.getEntityID()>0)
+        ratt.endpoint.setEntityID((uint8_t)att.getEntityID());
+    if(att.getUserDefinedID()>0)
+        ratt.endpoint.setUserDefinedID((uint8_t)att.getUserDefinedID());
+    ratt.times = att.times;
+
+    // TODO(Ricardo) Remove in future
+    // Insert topic_name and partitions
+    Property property;
+    property.name("topic_name");
+    property.value(att.topic.getTopicName().c_str());
+    ratt.endpoint.properties.properties().push_back(std::move(property));
+    if(att.qos.m_partition.getNames().size() > 0)
+    {
+        property.name("partitions");
+        std::string partitions;
+        for(auto partition : att.qos.m_partition.getNames())
+        {
+            partitions += partition + ";";
+        }
+        property.value(std::move(partitions));
+        ratt.endpoint.properties.properties().push_back(std::move(property));
+    }
+    if (att.qos.m_disablePositiveACKs.enabled)
+    {
+        ratt.disable_positive_acks = true;
+    }
+
+    //remove all previous chache change
+    // int removed_changes_count = 0;
+    // subimpl->m_history.removeAllChange(&removed_changes_count);
+
+    RTPSReader* reader = RTPSDomain::createRTPSReader(this->mp_rtpsParticipant,
+            ratt,
+            (ReaderHistory*)&subimpl->m_history,
+            (ReaderListener*)&subimpl->m_readerListener);
+    if(reader != nullptr)
+    {
+        //disable old reader
+        // this->mp_rtpsParticipant->disableReader(subimpl->mp_reader);
+        this->mp_rtpsParticipant->removeReader(subimpl->mp_reader);
+        subimpl->mp_reader = reader;
+        this->mp_rtpsParticipant->registerReader(reader,att.topic,att.qos);    
+    }
+    
 }
 
 Subscriber* ParticipantImpl::createSubscriber(

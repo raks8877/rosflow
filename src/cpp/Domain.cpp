@@ -29,6 +29,8 @@
 #include <fastrtps/attributes/SubscriberAttributes.h>
 #include "subscriber/SubscriberImpl.h"
 #include "publisher/PublisherImpl.h"
+#include <fastrtps/subscriber/SubscriberListener.h>
+#include <fastrtps/publisher/PublisherListener.h>
 
 #include <fastrtps/utils/eClock.h>
 
@@ -280,14 +282,21 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
     {
         for(auto itr = it->second->m_subscribers.begin(); itr != it->second->m_subscribers.end(); ++itr)
         {
-            std::cout << itr->second->getSubscriberAttributes().topic.getTopicName() << std::endl;
+            // std::cout << itr->second->getSubscriberAttributes().topic.getTopicName() << std::endl;
             if (itr->second->getSubscriberAttributes().topic.getTopicName().to_string().compare("rt/" + sub[0]) == 0)
             {
                 SubscriberAttributes newatt = itr->second->getSubscriberAttributes();
-                //take care of namespaces:: PENDING
+                // SubscriberListener *newlistener = (SubscriberListener *) malloc(sizeof(SubscriberListener));
+                // SubscriberListener *oldlistener = itr->second->getSubscriberListener();
+                // memcpy ((void *)newlistener, (void*)oldlistener, sizeof(oldlistener));
+                // //take care of namespaces:: PENDING
                 newatt.topic.topicName = "rt/" + sub[1];
+                // // std::cout << "Subscriber updated from " << sub[0] << " to " << sub[1] << std::endl;
+                // it->first->mp_impl->createSubscriber(newatt, newlistener);
+                // removeSubscriber(itr->first);
+                it->first->mp_impl->updateSubscriberReader(newatt, itr->second);
                 itr->second->updateAttributes(newatt);
-                std::cout << "Subscriber updated from " << sub[0] << " to " << sub[1] << std::endl;
+                
             }
             
         }
@@ -296,14 +305,23 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
     {
         for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
         {
-            std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
+            // std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
             if (itr->second->getPublisherAttributes().topic.getTopicName().to_string().compare("rt/" + pub[0]) == 0)
             {
                 PublisherAttributes newatt = itr->second->getPublisherAttributes();
-                //take care of namespaces:: PENDING
+                // PublisherListener *newlistener = (PublisherListener *) malloc(sizeof(PublisherListener));
+                // PublisherListener *oldlistener = itr->second->getPublisherListener();
+                // memcpy ((void*)newlistener, (void*)oldlistener, sizeof(oldlistener));
+                
+                // //take care of namespaces:: PENDING
                 newatt.topic.topicName = "rt/" + pub[1];
+                // // std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
+                // it->first->mp_impl->createPublisher(newatt, newlistener);
+                // removePublisher(itr->first);
+                it->first->mp_impl->updatePublisherWriter(newatt, itr->second);
                 itr->second->updateAttributes(newatt);
-                std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
+                
+                
             }
         }
     }

@@ -391,6 +391,8 @@ private:
         bool enableReader(RTPSReader *reader);
 
         void disableReader(RTPSReader *reader);
+        void removeOldWriter(RTPSWriter* Writer);
+        void removeOldReader(RTPSReader *reader);
 
         /**
          * Register a Writer in the BuiltinProtocols.

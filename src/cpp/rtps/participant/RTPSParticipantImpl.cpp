@@ -601,6 +601,7 @@ bool RTPSParticipantImpl::enableReader(RTPSReader *reader)
     return true;
 }
 
+
 // Avoid to receive PDPSimple reader a DATA while calling ~PDPSimple and EDP was destroy already.
 void RTPSParticipantImpl::disableReader(RTPSReader *reader)
 {
@@ -611,6 +612,19 @@ void RTPSParticipantImpl::disableReader(RTPSReader *reader)
     }
     m_receiverResourcelistMutex.unlock();
 }
+
+void RTPSParticipantImpl::removeOldWriter(RTPSWriter* Writer)
+{
+    this->mp_builtinProtocols->removeLocalWriterBIP(Writer);
+    
+}
+
+void RTPSParticipantImpl::removeOldReader(RTPSReader *reader)
+{
+    this->mp_builtinProtocols->removeLocalReaderBIP(reader);
+    
+}
+
 
 bool RTPSParticipantImpl::registerWriter(RTPSWriter* Writer, const TopicAttributes& topicAtt, const WriterQos& wqos)
 {

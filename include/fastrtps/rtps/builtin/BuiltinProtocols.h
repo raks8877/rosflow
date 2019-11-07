@@ -88,6 +88,10 @@ class BuiltinProtocols
      * @return True if correct.
      */
     bool addLocalWriter(RTPSWriter* w, const TopicAttributes& topicAtt, const WriterQos& wqos);
+    
+    void removeLocalWriterBIP(RTPSWriter* w);
+    void removeLocalReaderBIP(RTPSReader* R);
+
     /**
      * Add a local Reader to the BuiltinProtocols.
      * @param R Pointer to the RTPSReader.

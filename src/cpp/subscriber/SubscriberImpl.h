@@ -134,6 +134,7 @@ public:
      */
     void get_requested_deadline_missed_status(RequestedDeadlineMissedStatus& status);
     SubscriberAttributes getSubscriberAttributes();
+    SubscriberListener* getSubscriberListener();
 private:
 
     //!Participant
