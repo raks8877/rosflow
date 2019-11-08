@@ -294,6 +294,7 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
                 // // std::cout << "Subscriber updated from " << sub[0] << " to " << sub[1] << std::endl;
                 // it->first->mp_impl->createSubscriber(newatt, newlistener);
                 // removeSubscriber(itr->first);
+                itr->second->updateAttributes(newatt);
                 it->first->mp_impl->updateSubscriberReader(newatt, itr->second);
                 itr->second->updateAttributes(newatt);
                 
@@ -318,6 +319,7 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
                 // // std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
                 // it->first->mp_impl->createPublisher(newatt, newlistener);
                 // removePublisher(itr->first);
+                itr->second->updateAttributes(newatt);
                 it->first->mp_impl->updatePublisherWriter(newatt, itr->second);
                 itr->second->updateAttributes(newatt);
                 
