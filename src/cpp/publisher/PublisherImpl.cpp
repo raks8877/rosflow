@@ -88,7 +88,7 @@ PublisherImpl::~PublisherImpl()
     {
         logInfo(PUBLISHER, this->getGuid().entityId << " in topic: " << this->m_att.topic.topicName);
     }
-
+    
     RTPSDomain::removeRTPSWriter(mp_writer);
     delete(this->mp_userPublisher);
 }
@@ -311,9 +311,9 @@ bool PublisherImpl::updateAttributes(const PublisherAttributes& att)
     }
     m_att.unicastLocatorList.clear();
     m_att.multicastLocatorList.clear();
-    size_t removed_changes_count = 0;
-    m_history.removeAllChange(&removed_changes_count);
-
+    // size_t removed_changes_count = 0;
+    // m_history.removeAllChange(&removed_changes_count);
+    m_history.remove_all_changes();
     //TOPIC ATTRIBUTES
     if(this->m_att.topic != att.topic)
     {

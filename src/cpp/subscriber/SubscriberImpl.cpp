@@ -72,7 +72,7 @@ SubscriberImpl::~SubscriberImpl()
     {
         logInfo(SUBSCRIBER,this->getGuid().entityId << " in topic: "<<this->m_att.topic.topicName);
     }
-
+    
     RTPSDomain::removeRTPSReader(mp_reader);
     delete(this->mp_userSubscriber);
 }
@@ -157,7 +157,7 @@ bool SubscriberImpl::updateAttributes(const SubscriberAttributes& att)
     // }
     m_att.multicastLocatorList.clear();
     m_att.unicastLocatorList.clear();
-    
+    m_history.remove_all_changes();
     //TOPIC ATTRIBUTES
     if(this->m_att.topic != att.topic)
     {

@@ -257,26 +257,8 @@ void Domain::getDefaultSubscriberAttributes(SubscriberAttributes& subscriber_att
 
 void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::string> sub, std::vector<std::string> pub1)
 {
-    // std::cout << "Inside domain.cpp\n";
-    // std::vector<std::string>::iterator itr;
-    // std::cout << "Publishers: ";
-    // for(itr = pub.begin(); itr != pub.end(); itr++)
-    // {
-    //     std::cout << (*itr) << " ";
-    // }
-    // std::cout << std::endl;
-    // std::cout << "Subscrieber: ";
-    // for(itr = sub.begin(); itr != sub.end(); itr++)
-    // {
-    //     std::cout << (*itr) << " ";
-    // }
-    // std::cout << std::endl;
-    // std::cout << "Publishers1: ";
-    // for(itr = pub1.begin(); itr != pub1.end(); itr++)
-    // {
-    //     std::cout << (*itr) << " ";
-    // }
-    // std::cout << std::endl;
+    if (pub.size() == 0 || sub.size() == 0 || pub1.size() == 0)
+        return;
     std::lock_guard<std::mutex> guard(m_mutex);
     for (auto it = m_participants.begin(); it != m_participants.end(); it++)
     {
@@ -301,9 +283,7 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
             }
             
         }
-    }
-    for (auto it = m_participants.begin(); it != m_participants.end(); it++)
-    {
+
         for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
         {
             // std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
@@ -326,7 +306,55 @@ void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::str
                 
             }
         }
+
+        for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
+        {
+            // std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
+            if (itr->second->getPublisherAttributes().topic.getTopicName().to_string().compare("rt/" + pub1[0]) == 0)
+            {
+                PublisherAttributes newatt = itr->second->getPublisherAttributes();
+                // PublisherListener *newlistener = (PublisherListener *) malloc(sizeof(PublisherListener));
+                // PublisherListener *oldlistener = itr->second->getPublisherListener();
+                // memcpy ((void*)newlistener, (void*)oldlistener, sizeof(oldlistener));
+                
+                // //take care of namespaces:: PENDING
+                newatt.topic.topicName = "rt/" + pub1[1];
+                // // std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
+                // it->first->mp_impl->createPublisher(newatt, newlistener);
+                // removePublisher(itr->first);
+                itr->second->updateAttributes(newatt);
+                it->first->mp_impl->updatePublisherWriter(newatt, itr->second);
+                itr->second->updateAttributes(newatt);
+                
+                
+            }
+        }
     }
+    // for (auto it = m_participants.begin(); it != m_participants.end(); it++)
+    // {
+    //     for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
+    //     {
+    //         // std::cout << itr->second->getPublisherAttributes().topic.getTopicName() << std::endl;
+    //         if (itr->second->getPublisherAttributes().topic.getTopicName().to_string().compare("rt/" + pub[0]) == 0)
+    //         {
+    //             PublisherAttributes newatt = itr->second->getPublisherAttributes();
+    //             // PublisherListener *newlistener = (PublisherListener *) malloc(sizeof(PublisherListener));
+    //             // PublisherListener *oldlistener = itr->second->getPublisherListener();
+    //             // memcpy ((void*)newlistener, (void*)oldlistener, sizeof(oldlistener));
+                
+    //             // //take care of namespaces:: PENDING
+    //             newatt.topic.topicName = "rt/" + pub[1];
+    //             // // std::cout << "Publisher updated from " << pub[0] << " to " << pub[1] << std::endl;
+    //             // it->first->mp_impl->createPublisher(newatt, newlistener);
+    //             // removePublisher(itr->first);
+    //             itr->second->updateAttributes(newatt);
+    //             it->first->mp_impl->updatePublisherWriter(newatt, itr->second);
+    //             itr->second->updateAttributes(newatt);
+                
+                
+    //         }
+    //     }
+    // }
     
 }
 
