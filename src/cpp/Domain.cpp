@@ -254,6 +254,50 @@ void Domain::getDefaultSubscriberAttributes(SubscriberAttributes& subscriber_att
 
     return XMLProfileManager::getDefaultSubscriberAttributes(subscriber_attributes);
 }
+void Domain::rtps_update_pub(std::string oldtopic, std::string newtopic)
+{
+    std::lock_guard<std::mutex> guard(m_mutex);
+     for (auto it = m_participants.begin(); it != m_participants.end(); it++)
+    {
+        for(auto itr = it->second->m_publishers.begin(); itr != it->second->m_publishers.end(); ++itr)
+        {
+            if (itr->second->getPublisherAttributes().topic.getTopicName().to_string().compare("rt/" + oldtopic) == 0)
+            {
+                PublisherAttributes newatt = itr->second->getPublisherAttributes();
+                // TODO!
+                // take care of namespaces:: PENDING
+                newatt.topic.topicName = "rt/" + newtopic;
+                itr->second->updateAttributes(newatt);
+                it->first->mp_impl->updatePublisherWriter(newatt, itr->second);
+                itr->second->updateAttributes(newatt);
+                
+                
+            }
+        }
+    }    
+}
+void Domain::rtps_update_sub(std::string oldtopic, std::string newtopic)
+{
+    std::lock_guard<std::mutex> guard(m_mutex);
+     for (auto it = m_participants.begin(); it != m_participants.end(); it++)
+    {
+        for(auto itr = it->second->m_subscribers.begin(); itr != it->second->m_subscribers.end(); ++itr)
+        {
+            if (itr->second->getSubscriberAttributes().topic.getTopicName().to_string().compare("rt/" + oldtopic) == 0)
+            {
+                SubscriberAttributes newatt = itr->second->getSubscriberAttributes();
+                // TODO!
+                // take care of namespaces:: PENDING
+                newatt.topic.topicName = "rt/" + newtopic;
+                itr->second->updateAttributes(newatt);
+                it->first->mp_impl->updateSubscriberReader(newatt, itr->second);
+                itr->second->updateAttributes(newatt);
+                
+            }
+            
+        }
+    }    
+}
 
 void Domain::rtps_update_flow(std::vector<std::string> pub, std::vector<std::string> sub, std::vector<std::string> pub1)
 {

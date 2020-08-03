@@ -100,6 +100,8 @@ class Domain
         RTPS_DllAPI static void getDefaultPublisherAttributes(PublisherAttributes& publisher_attributes);
 
         static void rtps_update_flow(std::vector<std::string> pub, std::vector<std::string> sub,std::vector<std::string> pub1);
+        static void rtps_update_sub(std::string oldtopic, std::string newtopic);
+        static void rtps_update_pub(std::string oldtopic, std::string newtopic);
 
         /**
          * Create a Subscriber in a Participant from a profile name.
