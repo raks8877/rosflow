@@ -133,6 +133,8 @@ bool UDPTransportInterface::init()
         socket.open(generate_protocol());
 
         std::cout << "UDPTransportInterface::init()\n";
+        int socket_fd = (int)socket.native_handle();
+        std::cout << "socket_fd=" << socket_fd << std::endl;
 
         if (configuration()->sendBufferSize == 0)
         {
@@ -508,6 +510,7 @@ bool UDPTransportInterface::send(
         const Locator_t& remote_locator,
         bool only_multicast_purpose)
 {
+    std::cout << "UDPTransportInterface::send(\n";
     if (!IsLocatorSupported(remote_locator) || send_buffer_size > configuration()->sendBufferSize)
     {
         return false;
