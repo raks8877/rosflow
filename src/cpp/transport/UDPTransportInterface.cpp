@@ -132,6 +132,8 @@ bool UDPTransportInterface::init()
         ip::udp::socket socket(io_service_);
         socket.open(generate_protocol());
 
+        std::cout << "UDPTransportInterface::init()\n";
+
         if (configuration()->sendBufferSize == 0)
         {
             socket_base::send_buffer_size option;
