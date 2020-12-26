@@ -497,8 +497,6 @@ bool EDP::validMatching(const WriterProxyData* wdata, const ReaderProxyData* rda
     if(!matched) //Different partitions
         logWarning(RTPS_EDP,"INCOMPATIBLE QOS (topic: "<< rdata->topicName() <<"): Different Partitions");
     
-    if(matched)
-        std::cout << "validMatching of writer=" << wdata->topicName() << ", reader=" << rdata->topicName() << std::endl;
     return matched;
 }
 
