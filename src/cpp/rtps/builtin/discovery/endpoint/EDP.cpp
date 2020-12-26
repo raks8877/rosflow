@@ -385,7 +385,6 @@ bool EDP::unpairReaderProxy(const GUID_t& participant_guid, const GUID_t& reader
 
 bool EDP::validMatching(const WriterProxyData* wdata, const ReaderProxyData* rdata)
 {
-    std::cout << "validMatching of writer=" << wdata->topicName() << ", reader=" << rdata->topicName() << std::endl;
     if (wdata->topicName() != rdata->topicName())
     {
         return false;
@@ -497,6 +496,8 @@ bool EDP::validMatching(const WriterProxyData* wdata, const ReaderProxyData* rda
     }
     if(!matched) //Different partitions
         logWarning(RTPS_EDP,"INCOMPATIBLE QOS (topic: "<< rdata->topicName() <<"): Different Partitions");
+    else
+        std::cout << "validMatching of writer=" << wdata->topicName() << ", reader=" << rdata->topicName() << std::endl;
     return matched;
 }
 
