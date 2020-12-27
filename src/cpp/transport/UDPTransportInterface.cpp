@@ -242,8 +242,13 @@ eProsimaUDPSocket UDPTransportInterface::OpenAndBindUnicastOutputSocket(
         const ip::udp::endpoint& endpoint,
         uint16_t& port)
 {
+    std::cout << "UDPTransportInterface::OpenAndBindUnicastOutputSocket(\n";
     eProsimaUDPSocket socket = createUDPSocket(io_service_);
     getSocketPtr(socket)->open(generate_protocol());
+
+    int socket_fd = (int)getSocketPtr(socket)->native_handle();
+    std::cout << "\t socket_fd=" << socket_fd << std::endl;
+
     if (mSendBufferSize != 0)
     {
         getSocketPtr(socket)->set_option(socket_base::send_buffer_size(mSendBufferSize));

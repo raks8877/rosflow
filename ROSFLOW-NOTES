@@ -1,5 +1,7 @@
 
-
+***************************************************************************************
+FLOW: createWriter->createSendResources->build_send_resources->OpenOutputChannel
+***************************************************************************************
 ) RTPSParticipantImpl.cpp
 
 These two function calls createSendResources with just one parameter
@@ -49,3 +51,19 @@ what is unicast and multicast?
 bool UDPTransportInterface::OpenOutputChannel(
         SendResourceList& sender_resource_list,
         const Locator_t& locator)
+
+
+
+
+***************************************************************************************
+FLOW: OpenOutputChannel
+***************************************************************************************
+
+) NetworkFactory.cpp
+
+This calls UDPTransportInterface->OpenOutputChannel
+
+bool NetworkFactory::build_send_resources(
+        SendResourceList& sender_resource_list,
+        const Locator_t& locator)
+

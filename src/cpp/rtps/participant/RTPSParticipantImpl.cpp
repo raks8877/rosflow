@@ -295,7 +295,6 @@ bool RTPSParticipantImpl::createWriter(
         const EntityId_t& entityId,
         bool isBuiltin)
 {
-    std::cout << "RTPSParticipantImpl::createWriter(\n";
     std::string type = (param.endpoint.reliabilityKind == RELIABLE) ? "RELIABLE" :"BEST_EFFORT";
     logInfo(RTPS_PARTICIPANT," of type " << type);
     EntityId_t entId;
@@ -454,7 +453,6 @@ bool RTPSParticipantImpl::createReader(
         bool isBuiltin,
         bool enable)
 {
-    std::cout << "RTPSParticipantImpl::createReader(\n";
     std::string type = (param.endpoint.reliabilityKind == RELIABLE) ? "RELIABLE" :"BEST_EFFORT";
     logInfo(RTPS_PARTICIPANT," of type " << type);
     EntityId_t entId;
@@ -766,7 +764,6 @@ bool RTPSParticipantImpl::assignEndpoint2LocatorList(Endpoint* endp, LocatorList
 
 bool RTPSParticipantImpl::createSendResources(Endpoint *pend)
 {
-    std::cout << "RTPSParticipantImpl::createSendResources(\n";
     if (pend->m_att.remoteLocatorList.empty())
     {
         // Adds the default locators of every registered transport.
