@@ -422,7 +422,7 @@ bool UDPTransportInterface::Receive(UDPChannelResource* p_channel_resource, octe
     int socket_fd = (int)p_channel_resource->socket()->native_handle();
     std::cout << "\t socket_fd=" << socket_fd << std::endl;
     std::cout << "\t from address=" << remote_locator.address << ", port=" << remote_locator.port << std::endl;
-
+    std::cout << "\t MSG=" << receive_buffer << std::endl;
     try
     {
         ip::udp::endpoint senderEndpoint;
@@ -547,6 +547,7 @@ bool UDPTransportInterface::send(
         int socket_fd = (int)getSocketPtr(socket)->native_handle();
         std::cout << "\t socket_fd=" << socket_fd << std::endl;
         std::cout << "\t to address=" << destinationEndpoint.address() << ", port=" << destinationEndpoint.port() << std::endl;
+        std::cout << "\t MSG=" << send_buffer << std::endl;
 
         size_t bytesSent = 0;
 
