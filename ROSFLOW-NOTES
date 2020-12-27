@@ -67,3 +67,28 @@ bool NetworkFactory::build_send_resources(
         SendResourceList& sender_resource_list,
         const Locator_t& locator)
 
+
+
+***************************************************************************************
+FLOW: UDPTransportInterface::send()
+UDPSenderResource()->UDPTransportInterface::send()
+***************************************************************************************
+
+) UDPSenderResource.hpp
+UDPSenderResource(
+        UDPTransportInterface& transport,
+        eProsimaUDPSocket& socket,
+        bool only_multicast_purpose = false)
+    : SenderResource(transport.kind())
+    , socket_(moveSocket(socket))
+    , only_multicast_purpose_(only_multicast_purpose)
+
+
+) UDPTransportInterface.cpp
+
+bool UDPTransportInterface::send(
+        const octet* send_buffer,
+        uint32_t send_buffer_size,
+        eProsimaUDPSocket& socket,
+        const Locator_t& remote_locator,
+        bool only_multicast_purpose)

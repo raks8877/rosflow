@@ -284,6 +284,7 @@ bool UDPTransportInterface::OpenOutputChannel(
 
         if(udp_sender_resource)
         {
+            std::cout << "returning true from coz resource is found in sender_resource_list\n";
             return true;
         }
     }
