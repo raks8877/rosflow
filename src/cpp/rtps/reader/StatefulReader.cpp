@@ -69,7 +69,6 @@ StatefulReader::StatefulReader(
 
 bool StatefulReader::matched_writer_add(RemoteWriterAttributes& wdata)
 {
-    std::cout << "StatefulReader::matched_writer_add\n";
     std::lock_guard<std::recursive_timed_mutex> guard(mp_mutex);
     for(std::vector<WriterProxy*>::iterator it=matched_writers.begin();
             it!=matched_writers.end();++it)
