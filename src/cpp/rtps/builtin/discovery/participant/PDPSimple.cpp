@@ -713,6 +713,8 @@ bool PDPSimple::addWriterProxyData(WriterProxyData* wdata, ParticipantProxyData&
 
 void PDPSimple::assignRemoteEndpoints(ParticipantProxyData* pdata)
 {
+    std::cout << "PDPSimple::assignRemoteEndpoints, m_participantName=" << pdata.m_participantName << std::endl;;
+    
     logInfo(RTPS_PDP,"For RTPSParticipant: "<<pdata->m_guid.guidPrefix);
     uint32_t endp = pdata->m_availableBuiltinEndpoints;
     uint32_t auxendp = endp;
