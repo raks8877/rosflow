@@ -821,6 +821,7 @@ void RTPSParticipantImpl::createReceiverResources(LocatorList_t& Locator_list, b
 
 void RTPSParticipantImpl::createSenderResources(LocatorList_t& Locator_list, bool ApplyMutation)
 {
+    std::cout << "RTPSParticipantImpl::createSenderResources\n";
     std::unique_lock<std::timed_mutex> lock(m_send_resources_mutex_);
 
     for (auto it_loc = Locator_list.begin(); it_loc != Locator_list.end(); ++it_loc)
