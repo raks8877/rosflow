@@ -488,7 +488,6 @@ bool PDPSimple::lookupParticipantProxyData(const GUID_t& pguid, ParticipantProxy
 
 bool PDPSimple::createSPDPEndpoints()
 {
-    std::cout << "PDPSimple::createSPDPEndpoints()\n";
     logInfo(RTPS_PDP,"Beginning");
     //SPDP BUILTIN RTPSParticipant WRITER
     HistoryAttributes hatt;

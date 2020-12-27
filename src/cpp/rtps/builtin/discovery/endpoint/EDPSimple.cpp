@@ -146,7 +146,6 @@ bool EDPSimple::initEDP(BuiltinAttributes& attributes)
 
 bool EDPSimple::createSEDPEndpoints()
 {
-    std::cout << "EDPSimple::createSEDPEndpoints()\n";
     WriterAttributes watt;
     ReaderAttributes ratt;
     HistoryAttributes hatt;
@@ -298,7 +297,6 @@ bool EDPSimple::createSEDPEndpoints()
 #if HAVE_SECURITY
 bool EDPSimple::create_sedp_secure_endpoints()
 {
-    std::cout << "EDPSimple::create_sedp_secure_endpoints()\n";
     WriterAttributes watt;
     ReaderAttributes ratt;
     HistoryAttributes hatt;
