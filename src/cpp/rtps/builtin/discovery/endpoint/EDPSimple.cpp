@@ -667,6 +667,7 @@ bool EDPSimple::removeLocalReader(RTPSReader* R)
 
 void EDPSimple::assignRemoteEndpoints(const ParticipantProxyData& pdata)
 {
+    std::cout << "EDPSimple::assignRemoteEndpoints, m_participantName=" << pdata.m_participantName << std::endl;;
     logInfo(RTPS_EDP,"New DPD received, adding remote endpoints to our SimpleEDP endpoints");
     uint32_t endp = pdata.m_availableBuiltinEndpoints;
     uint32_t auxendp = endp;
