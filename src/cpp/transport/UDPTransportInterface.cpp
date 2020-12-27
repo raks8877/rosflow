@@ -534,6 +534,7 @@ bool UDPTransportInterface::send(
     {
         auto destinationEndpoint = generate_endpoint(remote_locator, IPLocator::getPhysicalPort(remote_locator));
 
+        std::cout << "Address=" << destinationEndpoint.() << ", port=" << destinationEndpoint.port() << std::endl;
         size_t bytesSent = 0;
 
         try
