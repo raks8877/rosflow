@@ -1,0 +1,51 @@
+
+
+) RTPSParticipantImpl.cpp
+
+These two function calls createSendResources with just one parameter
+createWriter->createSendResources->build_send_resources->OpenOutputChannel
+createReader->createSendResources->build_send_resources->OpenOutputChannel
+
+bool RTPSParticipantImpl::createWriter(
+        RTPSWriter** WriterOut,
+        WriterAttributes& param,
+        WriterHistory* hist,
+        WriterListener* listen,
+        const EntityId_t& entityId,
+        bool isBuiltin)
+
+bool RTPSParticipantImpl::createReader(
+        RTPSReader** ReaderOut,
+        ReaderAttributes& param,
+        ReaderHistory* hist,
+        ReaderListener* listen,
+        const EntityId_t& entityId,
+        bool isBuiltin,
+        bool enable)
+
+
+) RTPSParticipantImpl.cpp
+
+These two function calls createSendResources->build_send_resources->OpenOutputChannel
+
+bool RTPSParticipantImpl::createSendResources(Endpoint *pend)
+void RTPSParticipantImpl::createSenderResources(LocatorList_t& Locator_list, bool ApplyMutation)
+
+
+) NetworkFactory.cpp
+
+This calls UDPTransportInterface->OpenOutputChannel
+
+bool NetworkFactory::build_send_resources(
+        SendResourceList& sender_resource_list,
+        const Locator_t& locator)
+
+
+) UDPTransportInterface.cpp
+This is responsible for creating socket.
+TODO!
+what is unicast and multicast?
+
+bool UDPTransportInterface::OpenOutputChannel(
+        SendResourceList& sender_resource_list,
+        const Locator_t& locator)
