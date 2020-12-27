@@ -272,7 +272,7 @@ bool UDPTransportInterface::OpenOutputChannel(
         SendResourceList& sender_resource_list,
         const Locator_t& locator)
 {
-    std::cout << "UDPTransportInterface::OpenOutputChannel(\n";
+    // std::cout << "UDPTransportInterface::OpenOutputChannel(\n";
     if (!IsLocatorSupported(locator))
     {
         return false;
@@ -287,7 +287,9 @@ bool UDPTransportInterface::OpenOutputChannel(
 
         if(udp_sender_resource)
         {
-            std::cout << "returning true from coz resource is found in sender_resource_list\n";
+            // std::cout << "returning true from coz resource is found in sender_resource_list\n";
+            // std::cout << "FD=" << (int)getSocketPtr(udp_sender_resource->socket)->native_handle() << std::endl;
+            
             return true;
         }
     }
