@@ -261,6 +261,7 @@ eProsimaUDPSocket UDPv4Transport::OpenAndBindInputSocket(
         uint16_t port,
         bool is_multicast)
 {
+    std::cout << "UDPv4Transport::OpenAndBindInputSocket(\n";
     eProsimaUDPSocket socket = createUDPSocket(io_service_);
     getSocketPtr(socket)->open(generate_protocol());
     if (mReceiveBufferSize != 0)
@@ -286,6 +287,7 @@ bool UDPv4Transport::OpenInputChannel(
         TransportReceiverInterface* receiver,
         uint32_t maxMsgSize)
 {
+    std::cout << "UDPv4Transport::OpenInputChannel(\n";
     std::unique_lock<std::recursive_mutex> scopedLock(mInputMapMutex);
     if (!is_locator_allowed(locator))
         return false;

@@ -228,6 +228,7 @@ bool UDPTransportInterface::OpenAndBindInputSockets(const Locator_t& locator, Tr
 UDPChannelResource* UDPTransportInterface::CreateInputChannelResource(const std::string& sInterface, const Locator_t& locator,
     bool is_multicast, uint32_t maxMsgSize, TransportReceiverInterface* receiver)
 {
+    std::cout << "UDPTransportInterface::CreateInputChannelResource(\n";
     eProsimaUDPSocket unicastSocket = OpenAndBindInputSocket(sInterface, IPLocator::getPhysicalPort(locator), is_multicast);
     UDPChannelResource* p_channel_resource = new UDPChannelResource(unicastSocket, maxMsgSize);
     p_channel_resource->message_receiver(receiver);
@@ -263,6 +264,7 @@ bool UDPTransportInterface::OpenOutputChannel(
         SendResourceList& sender_resource_list,
         const Locator_t& locator)
 {
+    std::cout << "UDPTransportInterface::OpenOutputChannel(\n";
     if (!IsLocatorSupported(locator))
     {
         return false;
@@ -513,7 +515,7 @@ bool UDPTransportInterface::send(
     std::cout << "UDPTransportInterface::send(\n";
     int socket_fd = (int)getSocketPtr(socket)->native_handle();
     std::cout << "\t socket_fd=" << socket_fd << std::endl;
-    
+
     if (!IsLocatorSupported(remote_locator) || send_buffer_size > configuration()->sendBufferSize)
     {
         return false;
