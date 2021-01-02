@@ -118,6 +118,8 @@ WriterProxy::WriterProxy(const RemoteWriterAttributes& watt,
 
 {
     std::cout << "WriterProxy::WriterProxy(\n";
+    std::cout << "\t" << watt.guid << std::endl;
+
     m_changesFromW.clear();
     //Create Events
     mp_writerProxyLiveliness = new WriterProxyLiveliness(
