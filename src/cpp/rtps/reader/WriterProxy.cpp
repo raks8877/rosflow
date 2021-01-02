@@ -253,6 +253,8 @@ bool WriterProxy::irrelevant_change_set(const SequenceNumber_t& seqNum)
 bool WriterProxy::received_change_set(const SequenceNumber_t& seqNum, bool is_relevance)
 {
     std::cout << "WriterProxy::received_change_set(\n";
+    std::cout << "\t" << seq_num << endl;
+    
     std::lock_guard<std::recursive_mutex> guard(*mp_mutex);
 
     // Check if CacheChange_t was already and it was already removed from changesFromW container.
@@ -343,6 +345,7 @@ const std::vector<ChangeFromWriter_t> WriterProxy::missing_changes()
 bool WriterProxy::change_was_received(const SequenceNumber_t& seq_num)
 {
     std::cout << "WriterProxy::change_was_received(\n";
+    std::cout << "\t" << seq_num << endl;
     std::lock_guard<std::recursive_mutex> guard(*mp_mutex);
 
     if(seq_num <= changesFromWLowMark_)
