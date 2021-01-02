@@ -103,6 +103,7 @@ bool StatelessReader::matched_writer_is_matched(const RemoteWriterAttributes& wd
 
 bool StatelessReader::change_received(CacheChange_t* change)
 {
+    std::cout << "StatelessReader::change_received(\n";
     // Only make visible the change if there is not other with bigger sequence number.
     // TODO Revisar si no hay que incluirlo.
     if(!thereIsUpperRecordOf(change->writerGUID, change->sequenceNumber))

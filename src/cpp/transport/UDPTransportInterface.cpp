@@ -228,8 +228,8 @@ bool UDPTransportInterface::OpenAndBindInputSockets(const Locator_t& locator, Tr
 UDPChannelResource* UDPTransportInterface::CreateInputChannelResource(const std::string& sInterface, const Locator_t& locator,
     bool is_multicast, uint32_t maxMsgSize, TransportReceiverInterface* receiver)
 {
-    std::cout << "UDPTransportInterface::CreateInputChannelResource(\n";
-    std::cout << "Address=" << sInterface << ", port=" << IPLocator::getPhysicalPort(locator) << std::endl;
+    // std::cout << "UDPTransportInterface::CreateInputChannelResource(\n";
+    // std::cout << "Address=" << sInterface << ", port=" << IPLocator::getPhysicalPort(locator) << std::endl;
 
     eProsimaUDPSocket unicastSocket = OpenAndBindInputSocket(sInterface, IPLocator::getPhysicalPort(locator), is_multicast);
     UDPChannelResource* p_channel_resource = new UDPChannelResource(unicastSocket, maxMsgSize);
@@ -244,13 +244,13 @@ eProsimaUDPSocket UDPTransportInterface::OpenAndBindUnicastOutputSocket(
         const ip::udp::endpoint& endpoint,
         uint16_t& port)
 {
-    std::cout << "UDPTransportInterface::OpenAndBindUnicastOutputSocket(\n";
+    // std::cout << "UDPTransportInterface::OpenAndBindUnicastOutputSocket(\n";
     eProsimaUDPSocket socket = createUDPSocket(io_service_);
     getSocketPtr(socket)->open(generate_protocol());
 
-    int socket_fd = (int)getSocketPtr(socket)->native_handle();
-    std::cout << "\t socket_fd=" << socket_fd << std::endl;
-    std::cout << "Address=" << endpoint.address() << ", port=" << endpoint.port() << std::endl;
+    // int socket_fd = (int)getSocketPtr(socket)->native_handle();
+    // std::cout << "\t socket_fd=" << socket_fd << std::endl;
+    // std::cout << "Address=" << endpoint.address() << ", port=" << endpoint.port() << std::endl;
 
     if (mSendBufferSize != 0)
     {
