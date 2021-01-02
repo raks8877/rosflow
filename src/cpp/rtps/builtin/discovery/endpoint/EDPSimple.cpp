@@ -532,6 +532,11 @@ bool EDPSimple::processLocalReaderProxyData(RTPSReader* local_reader, ReaderProx
 }
 bool EDPSimple::processLocalWriterProxyData(RTPSWriter* local_writer, WriterProxyData* wdata)
 {
+    std::cout << "EDPSimple::processLocalWriterProxyData(\n";
+    std::cout << "\t Local_writer=" << local_writer->getRTPSParticipant()->m_guid << std::endl;
+    std::cout << "\t wproxy=" << wdata->m_guid << "," << wdata->m_topicName << std::endl;
+
+    
     logInfo(RTPS_EDP, wdata->guid().entityId);
     (void)local_writer;
 
