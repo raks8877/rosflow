@@ -418,11 +418,12 @@ void UDPTransportInterface::perform_listen_operation(UDPChannelResource* p_chann
 bool UDPTransportInterface::Receive(UDPChannelResource* p_channel_resource, octet* receive_buffer,
     uint32_t receive_buffer_capacity, uint32_t& receive_buffer_size, Locator_t& remote_locator)
 {
-    std::cout << "UDPTransportInterface::Receive(\n";
-    int socket_fd = (int)p_channel_resource->socket()->native_handle();
-    std::cout << "\t socket_fd=" << socket_fd << std::endl;
-    std::cout << "\t from address=" << remote_locator.address << ", port=" << remote_locator.port << std::endl;
-    std::cout << "\t MSG=" << receive_buffer << std::endl;
+    // std::cout << "UDPTransportInterface::Receive(\n";
+    // int socket_fd = (int)p_channel_resource->socket()->native_handle();
+    // std::cout << "\t socket_fd=" << socket_fd << std::endl;
+    // std::cout << "\t from address=" << remote_locator.address << ", port=" << remote_locator.port << std::endl;
+    // std::cout << "\t MSG=" << receive_buffer << std::endl;
+
     try
     {
         ip::udp::endpoint senderEndpoint;
@@ -543,11 +544,11 @@ bool UDPTransportInterface::send(
     if (is_multicast_remote_address || !only_multicast_purpose)
     {
         auto destinationEndpoint = generate_endpoint(remote_locator, IPLocator::getPhysicalPort(remote_locator));
-        std::cout << "UDPTransportInterface::send(\n";
-        int socket_fd = (int)getSocketPtr(socket)->native_handle();
-        std::cout << "\t socket_fd=" << socket_fd << std::endl;
-        std::cout << "\t to address=" << destinationEndpoint.address() << ", port=" << destinationEndpoint.port() << std::endl;
-        std::cout << "\t MSG=" << send_buffer << std::endl;
+        // std::cout << "UDPTransportInterface::send(\n";
+        // int socket_fd = (int)getSocketPtr(socket)->native_handle();
+        // std::cout << "\t socket_fd=" << socket_fd << std::endl;
+        // std::cout << "\t to address=" << destinationEndpoint.address() << ", port=" << destinationEndpoint.port() << std::endl;
+        // std::cout << "\t MSG=" << send_buffer << std::endl;
 
         size_t bytesSent = 0;
 

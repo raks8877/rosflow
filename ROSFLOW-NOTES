@@ -1,5 +1,25 @@
 
 ***************************************************************************************
+FLOW: -> WriterProxy()
+***************************************************************************************
+) StatefulReder.cpp
+matched_writer_add() ->
+
+bool StatefulReader::matched_writer_add(RemoteWriterAttributes& wdata)
+
+
+
+) WriterProxy.cpp
+
+WriterProxy::WriterProxy(const RemoteWriterAttributes& watt,
+        StatefulReader* SR)
+
+
+
+
+
+
+***************************************************************************************
 FLOW: createWriter->createSendResources->build_send_resources->OpenOutputChannel
 ***************************************************************************************
 ) RTPSParticipantImpl.cpp
@@ -92,3 +112,5 @@ bool UDPTransportInterface::send(
         eProsimaUDPSocket& socket,
         const Locator_t& remote_locator,
         bool only_multicast_purpose)
+
+
