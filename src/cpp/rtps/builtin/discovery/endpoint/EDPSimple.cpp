@@ -476,7 +476,6 @@ bool EDPSimple::create_sedp_secure_endpoints()
 bool EDPSimple::processLocalReaderProxyData(RTPSReader* local_reader, ReaderProxyData* rdata)
 {
     std::cout << "EDPSimple::processLocalReaderProxyData(\n";
-    std::cout << "\t Local_reader=" << local_reader->getRTPSParticipant()->getGuid() << std::endl;
     std::cout << "\t rproxy=" << rdata->guid() << "," << rdata->topicName() << std::endl;
     
 
