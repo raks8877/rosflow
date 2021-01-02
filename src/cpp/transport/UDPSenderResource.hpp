@@ -45,6 +45,7 @@ class UDPSenderResource : public SenderResource
                     uint32_t dataSize,
                     const Locator_t& destination)-> bool
                 {
+                    std::cout << "UDPSenderResource->send_lambda_\n";
                     return transport.send(data, dataSize, socket_, destination, only_multicast_purpose_);
                 };
         }

@@ -53,6 +53,7 @@ public:
 
         if (send_lambda_)
         {
+            std::cout << "class SenderResource->bool send()\n";
             returned_value = send_lambda_(data, dataLength, destination_locator);
         }
 
