@@ -69,6 +69,9 @@ StatefulReader::StatefulReader(
 
 bool StatefulReader::matched_writer_add(RemoteWriterAttributes& wdata)
 {
+    std::cout << "StatefulReader::matched_writer_add(\n";
+    std::cout << "\t" << wdata.guid  << std::endl;
+
     std::lock_guard<std::recursive_timed_mutex> guard(mp_mutex);
     for(std::vector<WriterProxy*>::iterator it=matched_writers.begin();
             it!=matched_writers.end();++it)
@@ -76,6 +79,7 @@ bool StatefulReader::matched_writer_add(RemoteWriterAttributes& wdata)
         if((*it)->m_att.guid == wdata.guid)
         {
             logInfo(RTPS_READER,"Attempting to add existing writer");
+            std::cout << "*** FAILED!***\n";
             return false;
         }
     }
