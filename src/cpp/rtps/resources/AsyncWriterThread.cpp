@@ -120,6 +120,7 @@ void AsyncWriterThread::run()
           auto interestedWriters = interestTree.GetInterestedWriters();
 
           std::unique_lock<std::mutex> data_guard(data_structure_mutex_);
+          std::cout << "AsyncWriterThread::run()\n";
           for(auto writer : async_writers)
              if (interestedWriters.count(writer))
                writer->send_any_unsent_changes();
