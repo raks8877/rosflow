@@ -544,10 +544,10 @@ bool UDPTransportInterface::send(
     if (is_multicast_remote_address || !only_multicast_purpose)
     {
         auto destinationEndpoint = generate_endpoint(remote_locator, IPLocator::getPhysicalPort(remote_locator));
-        // std::cout << "UDPTransportInterface::send(\n";
-        // int socket_fd = (int)getSocketPtr(socket)->native_handle();
-        // std::cout << "\t socket_fd=" << socket_fd << std::endl;
-        // std::cout << "\t to address=" << destinationEndpoint.address() << ", port=" << destinationEndpoint.port() << std::endl;
+        std::cout << "UDPTransportInterface::send(\n";
+        int socket_fd = (int)getSocketPtr(socket)->native_handle();
+        std::cout << "\t socket_fd=" << socket_fd << std::endl;
+        std::cout << "\t to address=" << destinationEndpoint.address() << ", port=" << destinationEndpoint.port() << std::endl;
         // std::cout << "\t MSG=" << send_buffer << std::endl;
 
         size_t bytesSent = 0;
